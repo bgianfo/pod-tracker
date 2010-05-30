@@ -1,0 +1,9 @@
+[submodule "deps/mongo"]
+	path = deps/mongo
+	url = http://github.com/christkv/node-mongodb-native.git
+[submodule "deps/node-xml"]
+	path = deps/node-xml
+	url = http://github.com/robrighter/node-xml.git
+[submodule "deps/underscore"]
+	path = deps/underscore
+	url = http://github.com/documentcloud/underscore.git

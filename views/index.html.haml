@@ -1,0 +1,11 @@
+%html
+  %head
+    %link{ rel: 'stylesheet', href: '/style.css' }
+  %body
+    %h1= title
+    #articles
+      - each article in articles
+        %br
+        %div.article
+          %div.title= article.title
+          %a{ href: "/id/"+article._id } Link
