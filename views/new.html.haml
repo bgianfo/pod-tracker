@@ -1,15 +1,19 @@
 %html
   %head
     %link{ rel: 'stylesheet', href: '/style.css' }
+    %link{ rel: 'stylesheet', href: '/uniform.css' }
+    %script{:src => "/js/uniform.js", :type => "text/javascript"}
+    //  %script{:type => "text/javascript", :charset => "utf-8"}
+    //    $("select, input:checkbox, input:radio, input:file").uniform();
   %body
     %h1= title
     %form{ method: 'post' }
       %div
         %div
           %span Title :
-          %input{ type: 'text', name: 'title', id: 'editArticleTitle' }
+          %input{ type: 'text', name: 'title', length: 50, id: 'editArticleTitle' }
         %div
           %span Body :
-          %textarea{ name: 'body', rows: 20, id: 'editArticleBody' }
+          %input{ type: 'text', name: 'url', width: 50, id: 'editArticleBody' }
         %div#editArticleSubmit
           %input{ type: 'submit', value: 'Send' }

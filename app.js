@@ -12,6 +12,7 @@ kiwi.require('express');
 require('express/plugins')
 require('underscore');
 var sys = require('sys');
+var http = require('http');
 var mongo = require('mongodb');
 var backend = require('./backend');
   
@@ -21,6 +22,8 @@ configure(function(){
   use(Logger);
   set('root', __dirname);
 })
+
+//configure('production');
 
 //getRoot
 get('/', function(){
@@ -55,7 +58,11 @@ get('/', function(){
  * @param file The css file the browswer has requested
  */
 get('/*.css', function(file){
-  this.render(file + '.css.sass', { layout: false });
+   if ( file == "uniform" ) {
+     this.render('uniform.css', { layout: false });
+   } else {
+     this.render(file + '.css.sass', { layout: false });
+   }
 });
 
 //addNewBlog
@@ -89,7 +96,8 @@ post('/new', function(){
       collection.insert( doc, function(e,d) { 
         db.close();
         self.redirect('/')
-        populate( doc.url );
+        sys.puts( "populating " + doc.url + " with id: " + doc._id ); 
+        populate( doc.url, doc._id );
       });
     });
   });
@@ -127,4 +135,40 @@ get('/id/*', function( id ){
   */
 });
 
+/*
+ * Disabling for now
+ *
+get('/proxy/*', function( url ){
+  sys.puts("Proxy call for URL: " + url );
+  sys.puts( backend.getUrlTarget( url ) );
+  sys.puts( backend.getUrlRoot( url ) );
+  sys.puts( backend.getUrlRoot( url, true ) );
+  
+  var done = false;
+  var c = http.createClient( HTTP_PORT, getUrlRoot( url, true ) );
+  var r = c.request( 'GET', 
+                     backend.getUrlTarget( url ), 
+                     { 'host': backend.getUrlRoot( url, false ) }
+  );
+
+  r.addListener( 'response', function (response) {
+    total = "";
+    r.setEncoding('utf8');
+    r.addListener( 'data', function (chunk) {
+      total += chunk;
+    });
+
+    r.addListener( 'end', function (chunk) {
+      done = true;
+    });
+  });
+  r.end();
+  while ( true ) {
+    sys.puts( "waiting" );
+    if ( done ) {
+      return total;
+    }
+  }
+});
+*/
 run();

@@ -1,6 +1,7 @@
 require.paths.push('./deps/mongo/lib');
 require.paths.push('./deps/node-xml/lib');
 
+var sys = require('sys');
 var http = require('http');
 var xml = require('node-xml');
 var mongo = require('mongodb');
@@ -9,23 +10,33 @@ HTTP_PORT  = 80
 MONGO_HOST = "localhost";
 MONGO_PORT = mongo.Connection.DEFAULT_PORT;
 
-function populate( string ) {
+getUrlRoot = function( s, addHttp ) {
+  HTTP_OFFSET = 7;
+  offset = s.indexOf( "/", HTTP_OFFSET );
 
-  getUrlRoot = function( s, addHttp ) {
-    HTTP_OFFSET = 7;
-    offset = s.indexOf( "/", HTTP_OFFSET );
-    if ( addHttp ) {
-      return s.substring( 0 , offset )
-    } else {
-      return s.substring( HTTP_OFFSET, offset );
-    }
+  if ( offset < 0 ) {
+    offset = s.length;
   }
+  
+  if ( addHttp ) {
+    return s.substring( 0 , offset )
+  } else {
+    return s.substring( HTTP_OFFSET, offset );
+  }
+}
 
-  getUrlTarget = function( s ) {
-    HTTP_OFFSET = 7;
-    offset = s.indexOf( "/", HTTP_OFFSET );
+getUrlTarget = function( s ) {
+  HTTP_OFFSET = 7;
+  offset = s.indexOf( "/", HTTP_OFFSET );
+  if (offset == -1 ) {
+    return "/"
+  } else {
     return s.substr( offset );
   }
+}
+
+
+function populate( string ) {
 
   var client = http.createClient( HTTP_PORT, getUrlRoot( string, true ) );
   var request = client.request( 'GET', getUrlTarget( string ), {
@@ -107,4 +118,6 @@ function populate( string ) {
   request.end();
 }
 
+exports.getUrlRoot = getUrlRoot;
+exports.getUrlTarget = getUrlTarget;
 exports.populate = populate;
