@@ -25,7 +25,6 @@ configure(function(){
 
 //configure('production');
 
-//getRoot
 get('/', function(){
   var self = this;
   var server = new mongo.Server(MONGO_HOST,MONGO_PORT, {});
