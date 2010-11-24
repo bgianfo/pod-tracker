@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}
+    My Episodes Podcasts
+{% endblock %}
+{% block body %}
+  {% if g.user %}
+    <center>
+      <div style="width:70%; height:20px;" id="prog">
+        <label id="amount">0%</label>
+      </div>
+      <a href="javascript:togglePause()"><img src="{{ url_for('static', filename='pause.png')}}"></a>
+    </center>
+    <div class=twitbox>
+    {% for ctitle in podcasts.keys() %}
+        <div>
+          <img id="toggle" src="{{ url_for('static', filename='toggle.png')}}">
+          <strong>{{ ctitle }}</strong>
+          <div id="hider">
+          {% for show in podcasts[ctitle] %}
+              <li><p>
+              <div id="{{ show._id }}">
+                      <strong>{{ show.title }}</strong>
+                      {% if show.resume %}
+                      <a href="javascript:resume('{{ show.link }}', '{{ show._id }}')"><img src="{{ url_for('static', filename='resume.png')}}"></a>
+                      {% endif %}
+                      <a href="javascript:play('{{ show.link }}', '{{ show._id }}')"><img src="{{ url_for('static', filename='play.png')}}"></a>
+                      <a href="javascript:remove('{{ show._id }}')"><img src="{{ url_for('static', filename='cross.png') }}"></a>
+                      {% if not show.resume %}
+                      <img src="{{ url_for('static', filename='new.png') }}">
+                      {% endif %}
+              </div>
+              </p></li>
+          {% endfor %}
+          </div>
+        </div>
+    {% else %}
+      <li><em>There are no current subscriptions.</em>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

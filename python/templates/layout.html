@@ -1,0 +1,52 @@
+<!doctype html>
+<title>{% block title %}Welcome{% endblock %} | Caster</title>
+<link rel=stylesheet type=text/css href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<script type=text/javascript src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type=text/javascript src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+<script type=text/javascript src="{{ url_for('static', filename='soundmanager2.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='play.js') }}"></script>
+<script type=text/javascript>
+  soundManager.debugMode = false
+  soundManager.url = "/static/"; // directory where SM2 .SWFs live
+
+  $(document).ready( function () {
+    $("#toggle").each( function() {
+      $(this).bind( 'click', function() {
+         $(this).siblings("#hider").toggle();
+      });
+    });
+
+    $("#prog").progressbar( { value: 0, change: function() {
+       // Update amount label when value changes
+       $("#amount").text( Math.round($("#prog").progressbar("option", "value")) + "%" );
+    }});
+
+  });
+
+</script>
+<div class=page>
+  <h1>Caster</h1>
+  <div class=navigation>
+  {% if g.user %}
+    <a href="{{ url_for('listen') }} ">listen</a> |
+    <a href="{{ url_for('manage') }} ">manage</a> |
+    <a href="{{ url_for('logout') }} ">sign out [{{ g.user }}]</a>
+  {% endif %}
+  </div>
+  {% with flashes = get_flashed_messages() %}
+    {% if flashes %}
+      <ul class=flashes>
+      {% for message in flashes %}
+        <li>{{ message }}
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <div class=body>
+  {% block body %}{% endblock %}
+  </div>
+  <div class=footer>
+    Caster &mdash; A Flask Application
+  </div>
+</div>

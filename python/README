@@ -1,0 +1,28 @@
+
+                        / Caster /
+
+        listen to and tracker your podcasts anywhere
+
+
+    ~ What is Caster?
+
+      A MongoDB and Flask powered podcast tracker
+
+    ~ How do I use it?
+
+      1. edit the configuration in the minitwit.py file or
+         export an MINITWIT_SETTINGS environment variable
+         pointing to a configuration file.
+
+      2. fire up a python shell and run this:
+
+         >>> from caster import init_db; init_db()
+
+      3. now you can run the minitwit.py file with your
+         python interpreter and the application will
+         greet you on http://localhost:5000/
+	
+    ~ Is it tested?
+
+      You betcha.  Run the `minitwit_tests.py` file to
+      see the tests pass.

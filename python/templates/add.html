@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}
+    Subscribe to a new Podcast
+{% endblock %}
+{% block body %}
+  <h2>{{ self.title() }}</h2>
+  {% if g.user %}
+      <div class=twitbox>
+        <h3>Subscription URL:</h3>
+        <form action="/newcast" method=post>
+          <p><input type=text name=feed size=80>
+          <input type=submit value="subscribe">
+        </form>
+      </div>
+  {% endif %}
+  <ul class=podcasts>
+  {% for cast in podcasts %}
+    <li><img src="{{ cast.image }}"><p>
+      <strong>{{ cast.title }}</strong>
+      <small>&mdash; {{ cast.subtitle }}</small>
+      <a href="/remove/{{ cast.hash }}"> unsubscribe </a>
+  {% else %}
+    <li><em>There are no current subscriptions.</em>
+  {% endfor %}
+
+  </ul>
+{% endblock %}
