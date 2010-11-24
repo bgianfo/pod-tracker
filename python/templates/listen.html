@@ -8,7 +8,7 @@
       <div style="width:70%; height:20px;" id="prog">
         <label id="amount">0%</label>
       </div>
-      <a href="javascript:togglePause()"><img src="{{ url_for('static', filename='pause.png')}}"></a>
+      <a href="javascript:togglePause()"><img id="prog-button" src="{{ url_for('static', filename='pause.png')}}"></a>
     </center>
     <div class=twitbox>
     {% for ctitle in podcasts.keys() %}
