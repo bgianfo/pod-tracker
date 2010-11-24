@@ -1,12 +1,12 @@
 [submodule "deps/mongo"]
-	path = deps/mongo
+	path = node/deps/mongo
 	url = http://github.com/christkv/node-mongodb-native.git
 [submodule "deps/node-xml"]
-	path = deps/node-xml
+	path = node/deps/node-xml
 	url = http://github.com/robrighter/node-xml.git
 [submodule "deps/underscore"]
-	path = deps/underscore
+	path = node/deps/underscore
 	url = http://github.com/documentcloud/underscore.git
 [submodule "deps/uniform"]
-	path = deps/uniform
+	path = node/deps/uniform
 	url = http://github.com/pixelmatrix/uniform.git
