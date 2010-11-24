@@ -1,3 +1,22 @@
+
+
+Directory:
+----------
+
+node/ contains a previous attempt at implementation using node.js and MongoDB.
+
+python/ contains the current implementation using python and the flask web framework and MongoDB and the SoundManager2 media player.
+
+
+Requirements:
+-------------
+
+ > pip install flask feedparser pymongo
+
+ A running mongod instance.
+
+Exampel RSS Feeds
+-----------------
 http://nerdist.libsyn.com/rss
 http://smodcast.smodcast.libsynpro.com/rss
 http://leoville.tv/podcasts/floss.xml
