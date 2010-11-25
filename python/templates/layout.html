@@ -13,7 +13,7 @@
   $(document).ready( function () {
     $(".toggle").each( function() {
       $(this).bind( 'click', function() {
-         $(this).siblings(".hider").toggle();
+         $(this).siblings(".hider").slideToggle();
       });
     });
 
@@ -24,6 +24,18 @@
 
     $("#prog").progressbar('disable');
 
+    $( "#master" ).slider({
+        value: 60,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        slide: function(e,ui){
+          if (currentSong.setVolume) {
+            currentSong.setVolume( parseInt( ui.value ) );
+          }
+        }
+    });
+    
   });
 
 </script>

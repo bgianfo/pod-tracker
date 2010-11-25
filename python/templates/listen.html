@@ -9,17 +9,20 @@
         <label id="curr-song">Title</label>
         <label id="amount">0%</label>
       </div>
+      <div id="master" style="width:260px; height:12px; margin:15px;">
       <a href="javascript:togglePause()"><img id="prog-button" src="{{ url_for('static', filename='pause.png')}}"></a>
+      </div>
     </center>
     <div class=twitbox>
+      <h2>Available Episodes:</h2>
     {% for ctitle in podcasts.keys() %}
         <div>
           <img class="toggle" src="{{ url_for('static', filename='toggle.png')}}">
           <strong>{{ ctitle }}</strong>
           <div class="hider">
           {% for show in podcasts[ctitle] %}
-              <li><p>
               <div id="{{ show._id }}">
+              <li><p>
                       <strong class="ep-title">{{ show.title }}</strong>
                       {% if show.resume %}
                       <a href="javascript:resume('{{ show.link }}', '{{ show._id }}', '{{ show.title }}')"><img src="{{ url_for('static', filename='resume.png')}}"></a>
@@ -29,8 +32,8 @@
                       {% if not show.resume %}
                       <img src="{{ url_for('static', filename='new.png') }}">
                       {% endif %}
-              </div>
               </p></li>
+              </div>
           {% endfor %}
           </div>
         </div>

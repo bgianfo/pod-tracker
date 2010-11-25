@@ -22,6 +22,9 @@ div.hider {
              font-size: 9px;
              line-height: 2.2em; }
 
+#prog-button { position: absolute;
+               padding: 2px 105%;
+               /*line-height: -0.7em;*/ }
 
 #amount { position: absolute;
           padding: 0% 33%;

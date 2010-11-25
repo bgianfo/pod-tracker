@@ -128,6 +128,29 @@ def after_request(response):
     """Closes the database again at the end of the request."""
     return response
 
+@app.route('/opml')
+def opml():
+    """Remove a single episode from the user's database."""
+    if 'user_id' not in session:
+        abort(401)
+    else:
+      now  = datetime.utcnow().ctime()
+      xml  = "<?xml version=\"1.0\"?>\n"
+      xml += "<opml version=\"1.0\">\n"
+      xml += "  <head>\n"
+      xml += "    <title>Caster Export</title>\n"
+      xml += "    <dateCreated>%s GMT</dateCreated>\n" %  now
+      xml += "    <dateModified>%s GMT</dateModified>\n" % now
+      xml += "  </head>\n"
+      xml += "  <body>\n"
+      for cast in g.db['podcasts'].find():
+          v =  ( cast['title'], cast['url'] )
+          xml += "    <outline text=\"%s\"  type=\"rss\" xmlUrl=\"%s\"/>\n" % v
+      xml += "  </body>\n"
+      xml += "</opml>\n"
+      return xml
+
+
 @app.route('/rmepisode/<id>', methods=['GET'])
 def rmepisode(id):
     """Remove a single episode from the user's database."""

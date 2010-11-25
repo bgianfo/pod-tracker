@@ -8,14 +8,16 @@
       <div class=twitbox>
         <h3>Subscription URL:</h3>
         <form action="/newcast" method=post>
-          <p><input type=text name=feed size=80>
-          <input type=submit value="subscribe">
+          <input type=text name=feed size=40>
+          <input type=submit value="Subscribe">
         </form>
       </div>
+      <br>
   {% endif %}
+  <h2>Subscriptions:  <a href="/opml" ><input type=submit value="Export To OPML"></a></h2> 
   <ul class=podcasts>
   {% for cast in podcasts %}
-    <li><img src="{{ cast.image }}"><p>
+    <li><img src="{{ cast.image }}" width="100" height="100"><p>
       <strong>{{ cast.title }}</strong>
       <small>&mdash; {{ cast.subtitle }}</small>
       <a href="/remove/{{ cast.hash }}"> unsubscribe </a>

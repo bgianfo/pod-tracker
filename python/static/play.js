@@ -100,7 +100,8 @@ function remove( id ) {
 
   $.ajax({ url: "/rmepisode/" + id,
     success: function() {
-      $("#"+id).remove();
+      //$("#"+id).remove();
+      $("#"+id).toggle('puff');
     }});
 
   if ( id === currentSong.sID ) {
