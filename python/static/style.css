@@ -12,8 +12,19 @@ a:hover {
     color: #333;
 }
 
+div.hider {
+  padding: 10px 10px 10px 30px;
+}
+
+#curr-song { position: absolute;
+             padding: 0% 1%;
+             text-align: center;
+             font-size: 9px;
+             line-height: 2.2em; }
+
+
 #amount { position: absolute;
-          width: 70%;
+          padding: 0% 33%;
           text-align: center;
           line-height: 1.2em; }
 
@@ -179,14 +190,21 @@ ul.flashes li {
 div.playing {
     background: #808080;
     list-style: none;
-    margin: 1px 1px 0 1px;
+    /*margin: 1px 1px 0 1px;*/
     border: 1px solid #000000;
-    -moz-border-radius: 3px;
+    /*-moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    */
     padding: 1px;
     font-size: 13px;
 
 }
+
+strong.not-playing {
+  color: #DDDDDD;
+  /*background: #FF0000;*/
+}
+
 
 div.error {
     margin: 10px 0;

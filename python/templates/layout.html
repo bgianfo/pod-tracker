@@ -11,9 +11,9 @@
   soundManager.url = "/static/"; // directory where SM2 .SWFs live
 
   $(document).ready( function () {
-    $("#toggle").each( function() {
+    $(".toggle").each( function() {
       $(this).bind( 'click', function() {
-         $(this).siblings("#hider").toggle();
+         $(this).siblings(".hider").toggle();
       });
     });
 

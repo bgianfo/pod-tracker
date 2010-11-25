@@ -9,7 +9,7 @@ currentPos = 0;
 playHandle = function() {
   $("#prog").progressbar('enable');
   $("#prog-button").attr('src','/static/pause.png');
-  $("#"+currentSong.sID).addClass('playing');
+  //$("#"+currentSong.sID).addClass('playing');
 }
 
 /**
@@ -39,15 +39,22 @@ playingHandle = function() {
 
 finishHandle = function() {
   currentPos = 0;
-  $("#"+currentSong.sID).removeClass('playing');
+  //$("#"+currentSong.sID).removeClass('playing');
   $("#prog").progressbar('option','value', 0);
   $("#prog").progressbar('disable');
+  $("#curr-song").text('');
 }
 
 /**
  * Main dispatch to start the playing of a song from a previous location.
  */
-function resume( url, id ) {
+function resume( url, id, title ) {
+  $("#curr-song").text( title );
+
+  $('.ep-title').filter(function(){
+      return $(this).parent().attr('id') != id;
+  }).addClass('not-playing');
+
   started = false;
   $.ajax({
      url: "/getpos/" + id ,
@@ -75,7 +82,11 @@ function togglePause() {
   currentSong.togglePause();
 }
 
-function play( url, id ) {
+function play( url, id, title ) {
+  $("#curr-song").text( title );
+
+  $('.ep-title').addClass('not-playing');
+
   currentSong = soundManager.createSound({
     id:id, url:url, onplay:playHandle,
     onpause:pauseHandle, whileplaying:playingHandle,
