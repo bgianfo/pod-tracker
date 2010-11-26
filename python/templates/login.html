@@ -10,8 +10,8 @@
       <dt>Password:
       <dd><input type=password name=password size=30>
     </dl>
-    <div class=actions><input type=submit value="Sign In"></div>
+    <div class=actions><input type=submit value="Sign In"> | <a href="{{ url_for('register') }}"><input type=submit value="Register"></a></div>
   </form>
-  <a href="{{ url_for('register') }}">register</a> |
+  
 {% endblock %}
 

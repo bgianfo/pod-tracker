@@ -192,21 +192,19 @@ def listen():
     """
     """
     if not g.user:
-        return redir('login')
+      return redir('login')
 
     combined = dict()
-    for cast in g.db['podcasts'].find():
+    for cast in g.db['podcasts'].find( { "user":g.user } ):
       hash = cast["hash"]
       matching = []
-      for ep in g.db['episodes'].find(): 
+      for ep in g.db['episodes'].find( { "user" : g.user } ): 
         if ep['hash'] == hash:
           app.logger.debug("Adding: " + ep['link'])
           ep['resume'] = ( 'position' in ep.keys() )
           ep['new'] = (ep['status'] == "new")
           matching.append( ep )
       combined[cast["title"]] = matching
-
-
 
     return render_template( 'listen.html', podcasts=combined )
 
@@ -217,11 +215,10 @@ def manage():
 
     if request.method == "GET":
       app.logger.debug("Rendering add")
-      podcasts = g.db['podcasts'].find()
+      podcasts = g.db['podcasts'].find( { 'user':g.user } )
       return render_template( "add.html", podcasts = podcasts )
     else:
       if g.user and request.form['feed']:
-        app.logger.debug("Parsing add")
         podcast = dict()
         url = request.form['feed']
         podcast['url'] = url
@@ -234,7 +231,10 @@ def manage():
 
         podcast['title'] = rss['feed']['title']
         podcast['subtitle'] = rss['feed']['subtitle']
-        podcast['image'] = rss['feed']['image']['href']
+        try: 
+          podcast['image'] = rss['feed']['image']['href']
+        except:
+          podcast['image'] = ""
 
         g.db['podcasts'].insert( podcast )
 
@@ -247,31 +247,27 @@ def manage():
           episode["date"]   = entry['updated']
           episode["title"]  = entry['title']
           episode["status"] = "new"
-          app.logger.warn(" New documenet: " + str(episode) )
-
+          episode["user"]   = g.user
           mongoentries.append( episode )
         
         g.db['episodes'].insert( mongoentries )
 
         flash('Your subscription was successful')
-      else:
-        app.logger.debug("Skipping add")
 
-      podcasts = g.db['podcasts'].find()
+      podcasts = g.db['podcasts'].find( { "user" : g.user } )
       return render_template( "add.html", podcasts = podcasts )
 
 @app.route('/remove/<hash>', methods=['GET'])
 def remove(hash):
     """Registers a new message for the user."""
     if 'user_id' not in session:
-        abort(401)
+      abort(401)
     else:
-        g.db['podcasts'].remove( { "hash" : hash } )
-        g.db['episodes'].remove( { "hash" : hash } )
-        flash('You successfully unsubscribed from the podcast')
+      g.db['podcasts'].remove( { "hash" : hash, "user" : g.user } )
+      g.db['episodes'].remove( { "hash" : hash, "user" : g.user } )
+      flash('You successfully unsubscribed from the podcast')
 
- 
-    podcasts = g.db['podcasts'].find()
+    podcasts = g.db['podcasts'].find( { "user" : g.user } )
     return render_template( "add.html", podcasts = podcasts )
 
 
@@ -342,4 +338,4 @@ app.jinja_env.filters['gravatar'] = gravatar_url
 
 
 if __name__ == '__main__':
-    app.run(port=80)
+    app.run(host="192.168.1.100",port=80)
